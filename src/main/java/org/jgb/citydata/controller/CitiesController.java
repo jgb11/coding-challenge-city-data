@@ -1,11 +1,17 @@
 package org.jgb.citydata.controller;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.jgb.citydata.model.CityInfo;
+import org.jgb.citydata.repository.CitiesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 /**
  * @author jgb
@@ -16,22 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/v1/cities")
 class CitiesController {
 
-    @GetMapping()
-    public String index() {
-        return "Greetings from Spring Boot!";
-    }
+    @Autowired
+    private CitiesRepository repository;
 
-    @Value("${config1:Hello default}")
-    private String message;
-
-    @GetMapping("/message")
-    String getMessage() {
-        return this.message;
-    }
-
-    @GetMapping("/{city}")
-    String getCityInfo(@PathVariable("city") String city) {
-        return this.message + " / " + city;
+    @GetMapping(value = "/{city}", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<CityInfo> getCityInfo(@PathVariable("city") String city) {
+        final Optional<CityInfo> cityInfo = Optional.ofNullable(repository.findByCity(city));
+        return cityInfo
+                .map(ci -> new ResponseEntity<>(ci, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 }
