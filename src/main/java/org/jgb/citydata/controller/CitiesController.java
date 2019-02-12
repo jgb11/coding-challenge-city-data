@@ -2,6 +2,8 @@ package org.jgb.citydata.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RefreshScope
 @RestController
-class SimpleController {
+@RequestMapping(path = "/api/v1/cities")
+class CitiesController {
 
-    @RequestMapping("/")
+    @GetMapping()
     public String index() {
         return "Greetings from Spring Boot!";
     }
@@ -21,9 +24,14 @@ class SimpleController {
     @Value("${config1:Hello default}")
     private String message;
 
-    @RequestMapping("/message")
+    @GetMapping("/message")
     String getMessage() {
         return this.message;
+    }
+
+    @GetMapping("/{city}")
+    String getCityInfo(@PathVariable("city") String city) {
+        return this.message + " / " + city;
     }
 
 }
