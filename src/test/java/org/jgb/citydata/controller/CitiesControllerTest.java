@@ -1,22 +1,26 @@
 package org.jgb.citydata.controller;
 
+import org.jgb.citydata.Application;
+import org.jgb.citydata.config.TestSecurityConfiguration;
+import org.jgb.citydata.model.CityInfo;
+import org.jgb.citydata.repository.CitiesRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.autoconfigure.RefreshAutoConfiguration;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Collection;
+import java.time.LocalDateTime;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,58 +29,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 11/02/19 17:17
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(CitiesController.class)
+@TestPropertySource(locations = "classpath:bootstrap-tests.yml")
+@ContextConfiguration(classes = {Application.class, TestSecurityConfiguration.class, RefreshAutoConfiguration.class})
 public class CitiesControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
+    @MockBean
+    private CitiesRepository repository;
+
     @Test
-    public void index() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/v1/cities")
-                .with(authentication(createAuthentication()))
-                .accept(MediaType.APPLICATION_JSON))
+    public void testControllerReturnsCorrectCityInfo() throws Exception {
+        when(repository.findByCity(anyString())).thenReturn(new CityInfo("Zaragoza", "Madrid", LocalDateTime.MIN, LocalDateTime.MAX));
+        mvc.perform(MockMvcRequestBuilders.get("/api/v1/cities/Zaragoza").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Greetings from Spring Boot!")));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 
-    private Authentication createAuthentication() {
-        return new Authentication() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return null;
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return null;
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-            }
-
-            @Override
-            public String getName() {
-                return null;
-            }
-        };
+    @Test
+    public void testControllerReturnsNotFound() throws Exception {
+        when(repository.findByCity(anyString())).thenReturn(null);
+        mvc.perform(MockMvcRequestBuilders.get("/api/v1/cities/Honolulu").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
     }
+
 }
