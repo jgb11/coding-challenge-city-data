@@ -2,7 +2,7 @@ package org.jgb.citydata.model;
 
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 /**
@@ -16,13 +16,10 @@ public class CityInfo {
 
     private String city;
     private String cityDestiny;
-    private LocalDateTime departureTime;
-    private LocalDateTime arrivalTime;
+    private LocalTime departureTime;
+    private LocalTime arrivalTime;
 
-    public CityInfo() {
-    }
-
-    public CityInfo(String city, String cityDestiny, LocalDateTime departureTime, LocalDateTime arrivalTime) {
+    public CityInfo(String city, String cityDestiny, LocalTime departureTime, LocalTime arrivalTime) {
         this.city = city;
         this.cityDestiny = cityDestiny;
         this.departureTime = departureTime;
@@ -37,11 +34,11 @@ public class CityInfo {
         return cityDestiny;
     }
 
-    public LocalDateTime getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
-    public LocalDateTime getArrivalTime() {
+    public LocalTime getArrivalTime() {
         return arrivalTime;
     }
 

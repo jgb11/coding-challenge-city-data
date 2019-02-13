@@ -17,7 +17,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -42,7 +45,9 @@ public class CitiesControllerTest {
 
     @Test
     public void testControllerReturnsCorrectCityInfo() throws Exception {
-        when(repository.findByCity(anyString())).thenReturn(new CityInfo("Zaragoza", "Madrid", LocalDateTime.MIN, LocalDateTime.MAX));
+        when(repository.findByCity(anyString()))
+                .thenReturn(Collections.singletonList(
+                        new CityInfo("Zaragoza", "Madrid", LocalTime.MIN, LocalTime.MAX)));
         mvc.perform(MockMvcRequestBuilders.get("/api/v1/cities/Zaragoza").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));

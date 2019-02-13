@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * @author jgb
@@ -29,8 +30,11 @@ public class Application implements CommandLineRunner {
         repository.deleteAll();
 
         // save a couple of citiInfos
-        repository.save(new CityInfo("Zaragoza", "Madrid", LocalDateTime.parse("2019-02-12T07:00:00"), LocalDateTime.parse("2019-02-12T08:40:00")));
-        repository.save(new CityInfo("Madrid", "Barcelona", LocalDateTime.parse("2019-02-12T09:30:00"), LocalDateTime.parse("2019-02-12T11:40:00")));
+        repository.save(new CityInfo("Zaragoza", "Madrid", LocalTime.parse("07:00:00"), LocalTime.parse("08:40:00")));
+        repository.save(new CityInfo("Madrid", "Barcelona", LocalTime.parse("09:30:00"), LocalTime.parse("11:40:00")));
+        repository.save(new CityInfo("Zaragoza", "Guadalajara", LocalTime.parse("10:00:00"), LocalTime.parse("11:20:00")));
+        repository.save(new CityInfo("Guadalajara", "Madrid", LocalTime.parse("11:30:00"), LocalTime.parse("12:00:00")));
+        repository.save(new CityInfo("Barcelona", "Madrid", LocalTime.parse("07:00:00"), LocalTime.parse("13:40:00")));
 
 //        // fetch all customers
 //        System.out.println("Customers found with findAll():");
