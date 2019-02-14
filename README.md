@@ -18,7 +18,7 @@ Example of data model:
 }
 ```
 
-## build/ run
+## build & run
 
 **Prerequisites**
 - Maven installed
