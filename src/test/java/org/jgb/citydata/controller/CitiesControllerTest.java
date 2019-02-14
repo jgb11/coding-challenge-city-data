@@ -1,6 +1,6 @@
 package org.jgb.citydata.controller;
 
-import org.jgb.citydata.Application;
+import org.jgb.citydata.CityDataApplication;
 import org.jgb.citydata.config.TestSecurityConfiguration;
 import org.jgb.citydata.model.CityInfo;
 import org.jgb.citydata.repository.CitiesRepository;
@@ -17,8 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 
@@ -34,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(CitiesController.class)
 @TestPropertySource(locations = "classpath:bootstrap-tests.yml")
-@ContextConfiguration(classes = {Application.class, TestSecurityConfiguration.class, RefreshAutoConfiguration.class})
+@ContextConfiguration(classes = {CityDataApplication.class, TestSecurityConfiguration.class, RefreshAutoConfiguration.class})
 public class CitiesControllerTest {
 
     @Autowired
