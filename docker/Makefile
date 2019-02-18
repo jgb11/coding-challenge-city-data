@@ -4,7 +4,7 @@ DOCKER_IMG_NAME?=coding-challenge-city-data
 DOCKER_FULL_IMG_NAME?=${DOCKER_NAMESPACE}/${DOCKER_IMG_NAME}:tmp
 DOCKER_FULL_REG_NAME?=${DOCKER_NAMESPACE}/${DOCKER_IMG_NAME}
 
-DOCKER_FULL_REG_TAG_NAME?=${DOCKER_FULL_REG_NAME}:${PROJECT_VERSION:?PROJECT_VERSION not set}
+DOCKER_FULL_REG_TAG_NAME?=${DOCKER_FULL_REG_NAME}:${PROJECT_VERSION}
 DOCKER_FULL_REG_LAST_NAME?=${DOCKER_FULL_REG_NAME}:latest
 
 DOCKER?=sudo docker
@@ -16,7 +16,7 @@ default: build
 .PHONY: install
 install:
 	${MVN} -f ../pom.xml clean package
-	cp ../target/coding-challenge-city-data-${PROJECT_VERSION:?PROJECT_VERSION not set}.jar .
+	cp ../target/coding-challenge-city-data-${PROJECT_VERSION}.jar .
 	${MVN} -f ../pom.xml dockerfile:build
 
 .PHONY: build
