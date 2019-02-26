@@ -43,7 +43,7 @@ $ mvn -f ./pom.xml clean package
 ```
 2. JAR run:
 ```bash
-$ java "-Dserver.port=8090" "-Dspring.cloud.config.uri=http://localhost:8888" "-Djava.security.egd=file:/dev/./urandom" \
+$ java "-Dserver.port=8080" "-Dspring.cloud.config.uri=http://localhost:8888" "-Djava.security.egd=file:/dev/./urandom" \
     -jar target/coding-challenge-city-data-0.0.1-SNAPSHOT.jar
 ```
 
