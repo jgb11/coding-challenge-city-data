@@ -49,7 +49,7 @@ $ java "-Dserver.port=8080" "-Dspring.cloud.config.uri=http://localhost:8888" "-
 
 ## swagger
 
-Swagger UI: http://localhost:8090/swagger-ui.html
+Swagger UI: http://localhost:8080/swagger-ui.html
 
 ## spring security
 
