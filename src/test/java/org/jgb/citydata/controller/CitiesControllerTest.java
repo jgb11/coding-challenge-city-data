@@ -1,7 +1,5 @@
 package org.jgb.citydata.controller;
 
-import org.jgb.citydata.CityDataApplication;
-import org.jgb.citydata.config.TestSecurityConfiguration;
 import org.jgb.citydata.model.CityInfo;
 import org.jgb.citydata.repository.CitiesRepository;
 import org.junit.Test;
@@ -30,9 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 11/02/19 17:17
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(CitiesController.class)
+@WebMvcTest(controllers = CitiesController.class, secure = false)
 @TestPropertySource(locations = "classpath:bootstrap-tests.yml")
-@ContextConfiguration(classes = {CityDataApplication.class, TestSecurityConfiguration.class, RefreshAutoConfiguration.class})
+@ContextConfiguration(classes = {CitiesController.class, RefreshAutoConfiguration.class})
 public class CitiesControllerTest {
 
     @Autowired
