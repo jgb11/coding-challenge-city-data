@@ -33,6 +33,9 @@ public class CityDataApplication implements CommandLineRunner {
         repository.save(new CityInfo("Zaragoza", "Madrid", LocalTime.parse("10:00:00"), LocalTime.parse("11:20:00")));
         repository.save(new CityInfo("Madrid", "Barcelona", LocalTime.parse("13:20:00"), LocalTime.parse("19:40:00")));
         repository.save(new CityInfo("Madrid", "Sevilla", LocalTime.parse("11:30:00"), LocalTime.parse("13:30:00")));
+        repository.save(new CityInfo("Zaragoza", "Valencia", LocalTime.parse("07:00:00"), LocalTime.parse("07:10:00")));
+        repository.save(new CityInfo("Valencia", "Madrid", LocalTime.parse("07:15:00"), LocalTime.parse("07:30:00")));
+        repository.save(new CityInfo("Madrid", "Sevilla", LocalTime.parse("07:40:00"), LocalTime.parse("07:50:00")));
 
 //        System.out.println("CityInfo List found with findAll():");
 //        System.out.println("-------------------------------");
